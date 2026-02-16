@@ -1,10 +1,29 @@
 #include <stdio.h>
+#include "medico.h"
+#include "paciente.h"
+#include "consulta.h"
 
+void GerenciarMedicos() {}; // Interface onde irá poder registrar, excluir, verificar qualquer dado relacionado aos médicos
+void GerenciarPacientes() {}; // A mesma interface de cima mas sobre os pacientes
+void GerenciarConsultas() {}; // Verificar as atuais ocorrências
 
-void Incluir() {}; // Cadastrar o Paciente
-void Atendimento() {}; // Acho que pro médico dizer pro Paciente oq ele tem?
+// [17:XX - 16/02/26 - everto] Verificando se vai precisar de mais alguma função
 
-void BuscarPaciente() {}; // Buscar um paciente em específico pelo ID;
-void ListarTodos() {}; // Listar todos os Pacientes cadastrados
-void LimparMemoria() {}; // Sujou, a polícia descobriu, apaga tudo!
-int main() {}; // a porra toda rola aqui B)
+int main() {
+    printf("╔══════════════════════════════════════════════╗\n");
+    printf("║   Sistema de Gestão Hospitalar da AlmaViva   ║\n");
+    printf("╚══════════════════════════════════════════════╝\n");
+    
+    int opt = 0;
+    do {
+        printf("\n[1] Gerenciar Médicos\n");
+        printf("[2] Gerenciar Pacientes\n");
+        printf("[3] Gerenciar Consultas\n");
+        printf("[4] Sair\n");
+        printf("\nDigite uma opção:\n> ");
+        scanf("%d", &opt);
+        switch (opt) {
+            case 1 : GerenciarMedicos(); break;
+            case 2 : GerenciarPacientes(); break;
+            case 3 : GerenciarConsultas(); break;}  } while (opt != 4);
+}; // Interface PRINCIPAL

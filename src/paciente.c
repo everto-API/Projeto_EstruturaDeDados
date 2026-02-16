@@ -8,7 +8,9 @@ Paciente_list *criar_pacienteList(){
     Paciente_list * li = (Paciente_list*) malloc(sizeof(Paciente_list));
         if(li != NULL){
 
-            li = NULL;
+            li->prox = NULL;
+            // A linha estava incoerente (li = NULL) isto QUEBRA o código, a forma certa é 
+            // (li->prox = NULL) - everto
         }
         return li;
 
@@ -157,6 +159,16 @@ void print_pacienteList(Paciente_list *li) {
     }
 }
 
+/*
+
+MODIFICAR ESTE MAIN - é obrigatório ter apenas UM único main
+
+A interface principal ocorre em main.c e não tem necessidade de por um em medico.c e paciente.c
+em medico.c e paciente.c (para economizar tempo) pode-se já deixar os cadastros dos médicos feitos
+
+aí na hora de rodar, já teremos alguns médicos e pacientes cadastrados
+
+*/
 int main(){
 
     Paciente_list * pacientes = criar_pacienteList();

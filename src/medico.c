@@ -7,11 +7,10 @@ Medico_List * cria_MedicoList(){
 
     Medico_List * li = malloc(sizeof(Medico_List));
 
-    if(li != NULL){
-
-        li = NULL;
-
-    }
+    if (li != NULL)  {
+        li->prox = NULL;} 
+        // A linha estava incoerente (li = NULL) isto QUEBRA o código, a forma certa é 
+        // (li->prox = NULL) - everto
     return li;
 
 };
@@ -163,6 +162,16 @@ Medico_List *buscar_Medico(char crm[], Medico_List *li){
 
 };
 
+/*
+
+MODIFICAR ESTE MAIN - é obrigatório ter apenas UM único main
+
+A interface principal ocorre em main.c e não tem necessidade de por um em medico.c e paciente.c
+em medico.c e paciente.c (para economizar tempo) pode-se já deixar os cadastros dos médicos feitos
+
+aí na hora de rodar, já teremos alguns médicos e pacientes cadastrados
+
+*/ 
 int main(){
 
     Medico_List * medicos = cria_MedicoList();
