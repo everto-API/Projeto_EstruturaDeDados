@@ -13,16 +13,16 @@ Paciente_list *criar_pacienteList(){
         return li;
 
 }
-void libera_pacienteList(Paciente_list * li){
+void libera_pacienteList(Paciente_list ** li){
 
-    if(li != NULL){
+    if(*li != NULL){
 
         Paciente_list* no;
 
-        while (li != NULL){
+        while (*li != NULL){
         
-            no = li;
-            li = (li) -> prox;
+            no = *li;
+            *li = (*li) -> prox;
             free(no);
         }
         
@@ -138,6 +138,11 @@ Paciente_list * ordernar_pacientes(Paciente_list * li){
 void print_pacienteList(Paciente_list *li) {
     int i = 0;
 
+    if (li == NULL) {
+        printf("Lista de pacientes vazia.\n");
+        return;
+    }
+
     while (li != NULL) {
         printf("Paciente %d\n", i);
         printf("  Endereco do no: %p\n", (void*) li);
@@ -168,6 +173,9 @@ int main(){
     
     remover_paciente("072529", &pacientes);
     
+    print_pacienteList(pacientes);
+    libera_pacienteList(&pacientes);
+    printf("\n\n");
     print_pacienteList(pacientes);
 
 }

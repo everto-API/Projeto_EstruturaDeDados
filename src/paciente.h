@@ -14,7 +14,7 @@ void cadastro_paciente(char nome[] , char cpf[], int idade,  Paciente_list ** li
 
 Paciente_list *criar_pacienteList();
 
-void libera_pacienteList(Paciente_list * li);
+void libera_pacienteList(Paciente_list ** li);
 
 void remover_paciente(char cpf[], Paciente_list ** li);
 
