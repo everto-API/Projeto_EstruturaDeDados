@@ -188,37 +188,3 @@ Medico_List *buscar_Medico(char crm[], Medico_List *li){
         
 
 };
-
-/*
-
-MODIFICAR ESTE MAIN - é obrigatório ter apenas UM único main
-
-A interface principal ocorre em main.c e não tem necessidade de por um em medico.c e paciente.c
-em medico.c e paciente.c (para economizar tempo) pode-se já deixar os cadastros dos médicos feitos
-
-aí na hora de rodar, já teremos alguns médicos e pacientes cadastrados
-
-*/ 
-int main(){
-
-    Medico_List * medicos = cria_MedicoList();
-
-    cadastro_medico("Luiz", "563478", "clinico geral", &medicos);
-    cadastro_medico("Luiz", "563478", "clinico geral", &medicos);
-    cadastro_medico("Isaac", "563474", "clinico geral", &medicos);
-    cadastro_medico("Louis", "563474", "clinico geral", &medicos);
-    cadastro_medico("Abener", "563479", "clinico geral", &medicos);
-
-    print_medicoList(medicos);
-    
-    remover_medico("563474", &medicos);
-    
-    print_medicoList(medicos);
-
-    libera_medicoList(&medicos);
-
-    print_medicoList(medicos);
-
-
-
-};

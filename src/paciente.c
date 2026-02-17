@@ -172,7 +172,7 @@ void print_pacienteList(Paciente_list *li) {
     }
 
     while (li != NULL) {
-        printf("Paciente %d\n", i);
+        printf("\nPaciente %d\n", i);
         printf("  Endereco do no: %p\n", (void*) li);
         printf("  Nome: %s\n", li->paciente.Nome);
         printf("  CPF: %s\n", li->paciente.cpf);
@@ -183,37 +183,4 @@ void print_pacienteList(Paciente_list *li) {
         li = li->prox;
         i++;
     }
-}
-
-/*
-
-MODIFICAR ESTE MAIN - é obrigatório ter apenas UM único main
-
-A interface principal ocorre em main.c e não tem necessidade de por um em medico.c e paciente.c
-em medico.c e paciente.c (para economizar tempo) pode-se já deixar os cadastros dos médicos feitos
-
-aí na hora de rodar, já teremos alguns médicos e pacientes cadastrados
-
-*/
-int main(){
-
-    Paciente_list * pacientes = criar_pacienteList();
-
-    cadastro_paciente("thyerry", "122222222", 22, &pacientes);
-    cadastro_paciente("thyerry", "122222222", 22, &pacientes);
-    cadastro_paciente("claudio", "122222", 22, &pacientes);
-    cadastro_paciente("luiz", "072529", 22, &pacientes);
-    cadastro_paciente("luiz", "072529", 22, &pacientes);
-    cadastro_paciente("abner", "12221122", 22, &pacientes);
-    
-    
-    print_pacienteList(pacientes);
-    
-    remover_paciente("072529", &pacientes);
-    
-    print_pacienteList(pacientes);
-    libera_pacienteList(&pacientes);
-    printf("\n\n");
-    print_pacienteList(pacientes);
-
 }
