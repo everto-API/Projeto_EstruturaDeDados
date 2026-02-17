@@ -3,18 +3,22 @@
 #include <stdio.h>
 #include <string.h>
 
+//aloca o primeiro no da lista
 Paciente_list *criar_pacienteList(){
 
     Paciente_list * li = (Paciente_list*) malloc(sizeof(Paciente_list));
         if(li != NULL){
 
-            li->prox = NULL;
+            li = NULL;
             // A linha estava incoerente (li = NULL) isto QUEBRA o código, a forma certa é 
             // (li->prox = NULL) - everto
+            // dessa forma não tava alocando o primeiro no corretamente tinha lixo de memoria
+            //retornei como tava -luiz
         }
         return li;
 
 }
+//libera toda a lista
 void libera_pacienteList(Paciente_list ** li){
 
     if(*li != NULL){
@@ -30,7 +34,7 @@ void libera_pacienteList(Paciente_list ** li){
         
     }
 };
-
+//busca por cpf caso não encontre retorna null
 Paciente_list *buscar_Paciente(char cpf[], Paciente_list * li){
 
     while (li != NULL){
@@ -44,24 +48,43 @@ Paciente_list *buscar_Paciente(char cpf[], Paciente_list * li){
 
 };
 
+//cadastro de pacientes
 void cadastro_paciente(char nome[] , char cpf[], int idade, Paciente_list ** li){
 
+    //verifica se o paciente ja foi cadastrado
     if(buscar_Paciente(cpf, *li) == NULL){
 
+        //aloca memoria
         Paciente p;
-        Paciente_list* no = malloc(sizeof(Paciente_list));
-        if(no != NULL){
+        Paciente_list* novo = malloc(sizeof(Paciente_list));
+        if(novo == NULL) return;
 
-            strcpy(p.Nome, nome);
-            strcpy(p.cpf, cpf);
-            p.Idade = idade;
-           
-            no ->paciente = p;
-            no ->prox = *li;
+        //insere os dados do paciente
+        strcpy(p.Nome, nome);
+        strcpy(p.cpf, cpf);
+        p.Idade = idade;
+
+        novo->paciente = p;
         
-            *li = ordernar_pacientes(no);
+        // insere no lugar correto da lista de forma ordenada por ordem alfabetica
 
+          // Caso 1: lista vazia ou entra no início
+        if (*li == NULL || strcmp(novo->paciente.Nome, (*li)->paciente.Nome) < 0) {
+            novo->prox = *li;
+            *li = novo;
+            return;
         }
+
+        // Caso 2: procurar posição
+        Paciente_list *atual = *li;
+        while (atual->prox != NULL &&
+            strcmp(atual->prox->paciente.Nome, novo->paciente.Nome) < 0) {
+            atual = atual->prox;
+        }
+
+        novo->prox = atual->prox;
+        atual->prox = novo;     
+        
 
     }else{
 
@@ -73,6 +96,7 @@ void cadastro_paciente(char nome[] , char cpf[], int idade, Paciente_list ** li)
 
 };
 
+// remove paciente da lista e libera memoria
 void remover_paciente(char cpf[], Paciente_list ** li){
 
     Paciente_list * atual, * anterior;
@@ -109,6 +133,7 @@ void remover_paciente(char cpf[], Paciente_list ** li){
 
 };
 
+//ordena a lista
 Paciente_list * ordernar_pacientes(Paciente_list * li){
 
     Paciente_list * nova = NULL;
@@ -136,7 +161,8 @@ Paciente_list * ordernar_pacientes(Paciente_list * li){
 
 };
 
-
+// exibe as informações do paciente e endereço do no e do proximo do no
+//obs: utilizado para debug
 void print_pacienteList(Paciente_list *li) {
     int i = 0;
 

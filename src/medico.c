@@ -8,13 +8,17 @@ Medico_List * cria_MedicoList(){
     Medico_List * li = malloc(sizeof(Medico_List));
 
     if (li != NULL)  {
-        li->prox = NULL;} 
+
+        li = NULL;} 
         // A linha estava incoerente (li = NULL) isto QUEBRA o código, a forma certa é 
-        // (li->prox = NULL) - everto
+        // (li->prox = NULL) - everto 
+        // dessa forma não tava alocando o primeiro no corretamente tinha lixo de memoria
+        //retornei como tava -luiz
     return li;
 
 };
 
+//libera toda a lista
 void libera_medicoList(Medico_List **li){
 
     Medico_List * no;
@@ -28,24 +32,44 @@ void libera_medicoList(Medico_List **li){
     
 
 };
-
+//cadastra o medico
 void cadastro_medico(char nome[],char crm[], char especialidade[], Medico_List ** li){
 
+    //verifica se o medico ja foi cadastrado
     if(buscar_Medico(crm, *li) == NULL){
 
+
         Medico m;
-        Medico_List *no = malloc(sizeof(Medico_List));
+        //aloca memoria
+        Medico_List *novo = malloc(sizeof(Medico_List));
 
-        if(no != NULL){
+        if(novo != NULL){
 
+            //insere as informações do medico
             strcpy(m.Nome, nome);
             strcpy(m.crm, crm);
             strcpy(m.especialidade, especialidade);
 
-            no->medico = m;
-            no->prox = *li;
-            *li = ordernar_medicos(no);
-        }
+             novo->medico = m;
+            
+             // insere na lista no lugar correto de forma ordenada por ordem alfabetica
+            // Caso 1: lista vazia ou entra no início
+            if (*li == NULL || strcmp(novo->medico.Nome, (*li)->medico.Nome) < 0) {
+                novo->prox = *li;
+                *li = novo;
+                return;
+            }
+
+            // Caso 2: procurar posição
+            Medico_List *atual = *li;
+            while (atual->prox != NULL &&
+                strcmp(atual->prox->medico.Nome, novo->medico.Nome) < 0) {
+                atual = atual->prox;
+            }
+
+            novo->prox = atual->prox;
+            atual->prox = novo;     
+            }
 
     }else{
 
@@ -55,7 +79,7 @@ void cadastro_medico(char nome[],char crm[], char especialidade[], Medico_List *
 
 
 };
-
+//remove da lista a partir do crm e libera a memoria
 void remover_medico(char crm[], Medico_List ** li){
 
      Medico_List * atual, * anterior;
@@ -94,6 +118,8 @@ void remover_medico(char crm[], Medico_List ** li){
 
 };
 
+// exibe as informações do medico e endereço do no atual e do proximo
+// obs: apenas debug
 void print_medicoList(Medico_List *li){
 
     if (li == NULL) {
@@ -116,7 +142,7 @@ void print_medicoList(Medico_List *li){
     }
 
 };
-
+// ordena a lista
 Medico_List *ordernar_medicos(Medico_List *li){
 
         Medico_List * nova = NULL;
@@ -143,6 +169,7 @@ Medico_List *ordernar_medicos(Medico_List *li){
 
 };
 
+// busca o medico a partir do crm caso não encontre retorna null
 Medico_List *buscar_Medico(char crm[], Medico_List *li){
 
 
