@@ -1,10 +1,7 @@
 #include "medico.h"
 #include "paciente.h"
-
-// Ainda será produzida
-// Para ser feita preciso dos dados de medico.c e paciente.c
-// Sem eles não da para fazer a consulta
-
+#ifndef CONSULTA_H
+#define CONSULTA_H
 typedef struct Consulta {
     int IdGeral;
     int IdMedico;
@@ -23,8 +20,9 @@ typedef struct ConsultaPonteiro {
 // Aqui tão as funções principais
 
 ConsultaLista *criarConsultaLista();
-void AgendarConsulta();
-void ListarConsultas();
-void GerenciarConsultas();
-void CancelarConsulta();
+void AgendarConsulta(ConsultaLista **consultas);
+void ListarConsultas(ConsultaLista **consultas);
+void GerenciarConsultas(ConsultaLista **consultas);
+void CancelarConsulta(ConsultaLista **consultas);
 
+#endif
