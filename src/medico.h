@@ -25,4 +25,10 @@ void print_medicoList(Medico_List *li);
 Medico_List *ordernar_medicos(Medico_List *li);
 
 //busca a partir do crm caso não encontre retorna null
-Medico_List *buscar_Medico(char cpf[], Medico_List *li);
+Medico_List *buscar_Medico(char crm[], Medico_List *li);
+
+//salva os medicos em um arquivo
+void salvar_medicos(Medico_List *li);
+
+//carrega os medicos de um arquivo
+void carregar_medicos(Medico_List **li);

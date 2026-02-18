@@ -34,3 +34,9 @@ Paciente_list * ordernar_pacientes(Paciente_list * li);
 
 // busca paciente, caso não existe retorna null
 Paciente_list *buscar_Paciente(char cpf[], Paciente_list * li);
+
+//salva os pacientes em um arquivo
+void salvar_pacientes(Paciente_list *li);
+
+//carrega os pacientes de um arquivo
+void carregar_pacientes(Paciente_list **li);

@@ -60,8 +60,12 @@ void GerenciarPacientes(Paciente_list **pacientes) {
 int main() { // Interface PRINCIPAL
 
     Paciente_list *pacientes = NULL;
+    Paciente_list *pacientes = NULL;
+    Medico_List *medicos = NULL;
 
-    
+    carregar_pacientes(&pacientes);
+    carregar_medicos(&medicos);
+
     printf("Sistema de Gestao Hospitalar da AlmaViva\n\n");
     int opt = 0;
     do {
@@ -75,7 +79,11 @@ int main() { // Interface PRINCIPAL
             case 1 : GerenciarPacientes(&pacientes); break;
             case 2 : GerenciarMedicos(); break;
             case 3 : GerenciarConsultas(); break;}  } while (opt != 4);
-    
-    libera_pacienteList(&pacientes); //Liberar a alocação de memória ao final do programa
+            
+            salvar_pacientes(pacientes);
+            salvar_medicos(medicos);
+            libera_pacienteList(&pacientes); //Liberar a alocação de memória ao final do programa
+            libera_medicoList(&medicos);
     return 0;
+
 }

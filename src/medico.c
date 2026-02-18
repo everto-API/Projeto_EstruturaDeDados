@@ -185,6 +185,36 @@ Medico_List *buscar_Medico(char crm[], Medico_List *li){
 
     }
     return NULL;
-        
+    void salvar_medicos(Medico_List *li) {
+
+    FILE *f = fopen("medicos.dat", "wb");
+    if (f == NULL) {
+        printf("Erro ao abrir arquivo de medicos.\n");
+        return;
+    }
+
+    while (li != NULL) {
+        fwrite(&li->medico, sizeof(Medico), 1, f);
+        li = li->prox;
+    }
+
+    fclose(f);
+}
+void carregar_medicos(Medico_List **li) {
+
+    FILE *f = fopen("medicos.dat", "rb");
+    if (f == NULL) {
+        return;
+    }
+
+    Medico temp;
+
+    while (fread(&temp, sizeof(Medico), 1, f) == 1) {
+
+        cadastro_medico(temp.Nome, temp.crm, temp.especialidade, li);
+    }
+
+    fclose(f);
+}
 
 };

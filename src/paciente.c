@@ -183,4 +183,36 @@ void print_pacienteList(Paciente_list *li) {
         li = li->prox;
         i++;
     }
+    void salvar_pacientes(Paciente_list *li) {
+
+    FILE *f = fopen("pacientes.dat", "wb");
+    if (f == NULL) {
+        printf("Erro ao abrir arquivo de pacientes.\n");
+        return;
+    }
+
+    while (li != NULL) {
+        fwrite(&li->paciente, sizeof(Paciente), 1, f);
+        li = li->prox;
+    }
+
+    fclose(f);
+}
+void carregar_pacientes(Paciente_list **li) {
+
+    FILE *f = fopen("pacientes.dat", "rb");
+    if (f == NULL) {
+        return; // Se não existir, ok
+    }
+
+    Paciente temp;
+
+    while (fread(&temp, sizeof(Paciente), 1, f) == 1) {
+
+        cadastro_paciente(temp.Nome, temp.cpf, temp.Idade, li);
+    }
+
+    fclose(f);
+}
+
 }
