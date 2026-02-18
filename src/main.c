@@ -7,7 +7,7 @@
 static Paciente_list *PacienteListaAuxiliar; // Para enviar os dados (paciente.c) é necessário uma lista auxiliar
 
 void GerenciarMedicos() {}; // Interface onde irá poder registrar, excluir, verificar qualquer dado relacionado aos médicos
-
+void GerenciarConsultas();
 void GerenciarPacientes(Paciente_list **pacientes) {
     printf("\n    -- Recepcao --\n\n");
     int opt = -1;
@@ -60,7 +60,6 @@ void GerenciarPacientes(Paciente_list **pacientes) {
 int main() { // Interface PRINCIPAL
 
     Paciente_list *pacientes = NULL;
-    ConsultaLista *consultas = NULL;
 
     
     printf("Sistema de Gestao Hospitalar da AlmaViva\n\n");
@@ -75,7 +74,7 @@ int main() { // Interface PRINCIPAL
         switch (opt) {
             case 1 : GerenciarPacientes(&pacientes); break;
             case 2 : GerenciarMedicos(); break;
-            case 3 : GerenciarConsultas(&consultas); break;}  } while (opt != 4);
+            case 3 : GerenciarConsultas(); break;}  } while (opt != 4);
     
     libera_pacienteList(&pacientes); //Liberar a alocação de memória ao final do programa
     return 0;

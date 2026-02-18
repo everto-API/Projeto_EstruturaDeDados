@@ -25,7 +25,7 @@ void libera_pacienteList(Paciente_list ** li);
 //remove um paciente a partir do seu cpf e libera a memoria
 void remover_paciente(char cpf[], Paciente_list ** li);
 
-//exibi todos os pacientes, endereço do no e endereço do proximo no    
+//exibe todos os pacientes, endereço do no e endereço do proximo no    
 //obs: apenas para debug
 void print_pacienteList(Paciente_list *li);
 
