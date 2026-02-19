@@ -72,7 +72,7 @@ void enqueue_Consulta(filaConsulta *fi, Consulta c);
 
 void dequeue_Consulta(filaConsulta *fi);
 
-Consulta peek_Consulta(filaConsulta *fi);
+Consulta* peek_Consulta(filaConsulta *fi);
 
 // gera uma consulta
 Consulta criarConsulta(Paciente_list *Paciente, char especialidade[], int pf);

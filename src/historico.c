@@ -83,29 +83,36 @@ void pop_Historico(Historico_pilha *pi){
 
 };
 
-Historico peek_Historico(Historico_pilha pi){
+Historico * peek_Historico(Historico_pilha pi){
 
-    Historico vazio = {0};
 
     if(pi != NULL){
 
-        return (*pi).historico;
+        return &((*pi).historico);
 
     }
-    return vazio;
+    return NULL;
 
 };
 
 void print_peekHistorico(Historico_pilha pi){
 
-    Historico peek = peek_Historico(pi);
+    Historico* peek = peek_Historico(pi);
+    if(peek != NULL){
 
-    printf("-----------------------------------------------------\n");
-    printf("Codigo        : %s\n", peek.consulta.codigo);
-    printf("Paciente      : %s\n", peek.consulta.paciente->paciente.Nome);
-    printf("Medico        : %s\n", peek.medico->medico.Nome);
-    printf("Especialidade : %s\n", peek.consulta.especialidade);
-    printf("-----------------------------------------------------\n\n");
+        printf("-----------------------------------------------------\n");
+        printf("Codigo        : %s\n", peek->consulta.codigo);
+        printf("Paciente      : %s\n", peek->consulta.paciente->paciente.Nome);
+        printf("Medico        : %s\n", peek->medico->medico.Nome);
+        printf("Especialidade : %s\n", peek->consulta.especialidade);
+        printf("-----------------------------------------------------\n\n");
+
+
+    }else{
+
+        printf("Historico vazio.\n");
+
+    }
 
 }
 

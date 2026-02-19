@@ -35,7 +35,7 @@ void push_Historico(Historico_pilha *pi, Historico h);
 //remove da pilha
 void pop_Historico(Historico_pilha *pi);
 //retorna o topo da pilha
-Historico peek_Historico(Historico_pilha pi);
+Historico* peek_Historico(Historico_pilha pi);
 // exibe o topo da pilha
 void print_peekHistorico(Historico_pilha pi);
 //exibe a pilha inteira

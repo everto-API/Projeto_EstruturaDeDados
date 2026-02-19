@@ -40,11 +40,11 @@ void SetorMedico(Medico_List *medicos,  filaConsulta* CG, filaConsulta* CA, fila
 
          do {
         printf("\n    -- Setor Medico --\n\n");
-        printf("-------------------");
+        printf("---------------------------------\n");
         printf("Nome: %s\n", medico->medico.Nome);
         printf("CRM: %s\n", medico->medico.crm);
         printf("Especialidade: %s\n", medico->medico.especialidade);
-        printf("-------------------\n\n");
+        printf("---------------------------------\n\n");
         printf("[1] Chamar Proximo da Fila\n");
         printf("[2] Ver Fila\n");
         printf("[0] Voltar ao menu inicial\n\n");
@@ -57,7 +57,7 @@ void SetorMedico(Medico_List *medicos,  filaConsulta* CG, filaConsulta* CA, fila
         switch(opt){
             
             case 1:
-                h = criar_historico(peek_Consulta(fila), medico);
+                h = criar_historico(*(peek_Consulta(fila)), medico);
                 push_Historico(pi, h);
                 dequeue_Consulta(fila);
                 break;

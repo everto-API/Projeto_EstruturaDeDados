@@ -182,17 +182,17 @@ void dequeue_Consulta(filaConsulta *fi){
 
 };
 
-Consulta peek_Consulta(filaConsulta *fi){
-    Consulta vazio = {0};
+Consulta * peek_Consulta(filaConsulta *fi){
+    
      if(fi->inicio_pf != NULL && fi->acc < 2){
 
-        return fi->inicio_pf->consulta;
+        return &(fi->inicio_pf->consulta);
 
      }else if (fi->inicio_normal != NULL){
 
-        return fi->inicio_normal->consulta;
+        return &(fi->inicio_normal->consulta);
      }
-    return vazio;
+    return NULL;
 
 };
 
