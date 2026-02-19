@@ -61,7 +61,7 @@ extern filaConsulta * fila_CA;
 // aloca a fila
 filaConsulta * criar_filaConsulta();
 //libera a fila
-void liberar_Consulta();
+void liberar_Consulta(filaConsulta **fila);
 
 //adiciona na fila normal
 void enqueue_ConsultaNormal(filaConsulta *fi, Consulta c);
