@@ -215,7 +215,9 @@ void Recepcao(Paciente_list **pacientes, filaConsulta* CG, filaConsulta* CA, fil
             case 4:
                 printf("CPF: ");
                 scanf(" %11s", cpf); while (getchar() != '\n');
-                remover_paciente(cpf, pacientes); break;
+                remover_paciente(cpf, pacientes); 
+                salvar_pacientes(*pacientes);
+                break;
             
             case 5:
                 printf("CPF: ");
@@ -323,9 +325,9 @@ int main() { // Interface PRINCIPAL
             case 2 : SetorMedico(medicos,fila_CG,fila_CA,fila_OR,historicoConsultas); break;
             case 3 : admin(&medicos, historicoConsultas); break;}  } while (opt != 4);
             
-            libera_pacienteList(&pacientes); //Liberar a alocação de memória ao final do programa
             salvar_pacientes(pacientes);
             salvar_medicos(medicos);
+            libera_pacienteList(&pacientes); //Liberar a alocação de memória ao final do programa
             libera_medicoList(&medicos);
             liberar_Consulta(&fila_CG);
             liberar_Consulta(&fila_CA);
