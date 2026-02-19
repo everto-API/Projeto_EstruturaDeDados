@@ -185,9 +185,12 @@ Medico_List *buscar_Medico(char crm[], Medico_List *li){
 
     }
     return NULL;
-    void salvar_medicos(Medico_List *li) {
 
-    FILE *f = fopen("medicos.dat", "wb");
+};
+
+void salvar_medicos(Medico_List *li) {
+
+    FILE *f = fopen("./data/medicos.dat", "wb");
     if (f == NULL) {
         printf("Erro ao abrir arquivo de medicos.\n");
         return;
@@ -202,7 +205,7 @@ Medico_List *buscar_Medico(char crm[], Medico_List *li){
 }
 void carregar_medicos(Medico_List **li) {
 
-    FILE *f = fopen("medicos.dat", "rb");
+    FILE *f = fopen("./data/medicos.dat", "rb");
     if (f == NULL) {
         return;
     }
@@ -216,5 +219,3 @@ void carregar_medicos(Medico_List **li) {
 
     fclose(f);
 }
-
-};

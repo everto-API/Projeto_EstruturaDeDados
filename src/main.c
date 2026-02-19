@@ -3,11 +3,64 @@
 #include "medico.h"
 #include "paciente.h"
 #include "consulta.h"
+#include "historico.h"
 
-static Paciente_list *PacienteListaAuxiliar; // Para enviar os dados (paciente.c) é necessário uma lista auxiliar
+Paciente_list *pacientes;
+Medico_List *medicos;
+void GerenciarMedicos(Medico_List **medicos) {
 
-void GerenciarMedicos() {}; // Interface onde irá poder registrar, excluir, verificar qualquer dado relacionado aos médicos
-void GerenciarConsultas();
+    char Nome[50];
+    char crm[7];
+    char especialidade[30];
+
+    int opt = -1;
+
+    do {
+        printf("\n\n[1] Cadastrar \n");
+        printf("[2] Buscar paciente (por CPF)\n");
+        printf("[3] Imprimir lista de todos os pacientes\n");
+        printf("[4] Remover Paciente\n");
+        printf("[0] Voltar ao menu inicial\n\n");
+        printf("Digite uma opcao:\n> ");
+        scanf("%d", &opt);
+
+        switch (opt) {
+            case 1:
+                printf("Nome: ");
+                scanf(" %[^\n]", nome);
+                printf("CPF: ");
+                scanf(" %11s", cpf); while (getchar() != '\n');
+                printf("Idade: ");
+                scanf("%d", &idade); while (getchar() != '\n');
+                cadastro_paciente(nome, cpf, idade, pacientes);
+                salvar_pacientes(*pacientes);
+                break;
+
+            case 2: 
+                printf("CPF: \n");
+                scanf(" %11s", cpf); while (getchar() != '\n');
+                Paciente_list *encontrou = buscar_Paciente(cpf, *pacientes);
+                if (encontrou) {
+                    printf("Nome: %s\nCPF: %s\nIdade: %d\n", encontrou->paciente.Nome, encontrou->paciente.cpf, encontrou->paciente.Idade);} 
+                else {printf("Paciente não encontrado\n");} break;
+            
+            case 3:
+                print_pacienteList(*pacientes); break;
+
+            case 4:
+                printf("CPF: ");
+                scanf(" %11s", cpf); while (getchar() != '\n');
+                remover_paciente(cpf, pacientes); break;
+                
+            default:
+                printf("Opção inválida\n");
+        }
+    } while (opt != 0);
+
+
+
+}; // Interface onde irá poder registrar, excluir, verificar qualquer dado relacionado aos médicos
+void GerenciarConsultas(){};
 void GerenciarPacientes(Paciente_list **pacientes) {
     printf("\n    -- Recepcao --\n\n");
     int opt = -1;
@@ -33,6 +86,7 @@ void GerenciarPacientes(Paciente_list **pacientes) {
                 printf("Idade: ");
                 scanf("%d", &idade); while (getchar() != '\n');
                 cadastro_paciente(nome, cpf, idade, pacientes);
+                salvar_pacientes(*pacientes);
                 break;
 
             case 2: 
@@ -59,9 +113,14 @@ void GerenciarPacientes(Paciente_list **pacientes) {
 
 int main() { // Interface PRINCIPAL
 
-    Paciente_list *pacientes = NULL;
-    Paciente_list *pacientes = NULL;
-    Medico_List *medicos = NULL;
+    pacientes = criar_pacienteList();
+    medicos = cria_MedicoList();
+
+    fila_CG = criar_filaConsulta();
+    fila_OR = criar_filaConsulta();
+    fila_CA = criar_filaConsulta();
+
+    historicoConsultas = cria_pilha();
 
     carregar_pacientes(&pacientes);
     carregar_medicos(&medicos);
@@ -71,13 +130,13 @@ int main() { // Interface PRINCIPAL
     do {
         printf("[1] Recepcao\n");
         printf("[2] Setor medico\n");
-        printf("[3] Gerenciar Consultas\n");
+        printf("[3] Administração\n");
         printf("[4] Sair\n");
         printf("\nDigite uma opcao:\n> ");
         scanf("%d", &opt);
         switch (opt) {
             case 1 : GerenciarPacientes(&pacientes); break;
-            case 2 : GerenciarMedicos(); break;
+            case 2 : GerenciarMedicos(&medicos); break;
             case 3 : GerenciarConsultas(); break;}  } while (opt != 4);
             
             salvar_pacientes(pacientes);

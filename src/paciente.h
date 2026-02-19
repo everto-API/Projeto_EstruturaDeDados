@@ -1,3 +1,5 @@
+#ifndef PACIENTE_H
+#define PACIENTE_H
 
 // Definindo paciente
 typedef struct Paciente {
@@ -40,3 +42,5 @@ void salvar_pacientes(Paciente_list *li);
 
 //carrega os pacientes de um arquivo
 void carregar_pacientes(Paciente_list **li);
+
+#endif

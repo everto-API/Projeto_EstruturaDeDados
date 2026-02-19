@@ -1,3 +1,6 @@
+#ifndef CONSULTA_H
+#define CONSULTA_H
+
 #include "medico.h"
 #include "paciente.h"
 
@@ -9,13 +12,16 @@
 // simplifiquei a consulta pra facilitar a implementação
 
 // contadores para gerar senhas
-int codigo_CG = 0;
-int codigo_OR = 0;
-int codigo_CA = 0;
+extern int codigo_CG;
+extern int codigo_OR;
+extern int codigo_CA;
 
-int codigo_CGP = 0;
-int codigo_ORP = 0;
-int codigo_CAP = 0;
+extern int codigo_CGP;
+extern int codigo_ORP;
+extern int codigo_CAP;
+
+//Filas por especialidade
+
 
 //definindo consulta
 typedef struct Consulta {
@@ -26,13 +32,13 @@ typedef struct Consulta {
 }Consulta;
 
 //lista encadeada de consulta
-struct elemento
+struct elementoFila
 {
     Consulta consulta;
-    struct elemento * prox;
+    struct elementoFila * prox;
 };
 
-typedef struct elemento Elem_filaConsulta;
+typedef struct elementoFila Elem_filaConsulta;
 
 // fila de consulta
 
@@ -43,16 +49,19 @@ typedef struct filaConsulta
 {
     int acc; // contador de preferencial
 
-    struct elemento * inicio_pf;
-    struct elemento * final_pf;
+    struct elementoFila * inicio_pf;
+    struct elementoFila * final_pf;
 
-    struct elemento * inicio_normal;
-    struct elemento * final_normal;
+    struct elementoFila * inicio_normal;
+    struct elementoFila * final_normal;
 
     
 
 }filaConsulta;
 
+filaConsulta * fila_CG;
+filaConsulta * fila_OR;
+filaConsulta * fila_CA;
 
 // Aqui tão as funções principais
 
@@ -70,19 +79,14 @@ void enqueue_Consulta(filaConsulta *fi, Consulta c);
 
 void dequeue_Consulta(filaConsulta *fi);
 
-//não implementado ainda talvez nem precise
-Elem_filaConsulta * ListarConsultas(filaConsulta *fi);
+Consulta peek_Consulta(filaConsulta *fi);
 
-/*Clínica Geral –.
-
-Cardiologia –.
-
-Ortopedia –*/
 // gera uma consulta
 Consulta criarConsulta(Paciente_list *Paciente, char especialidade[], int pf);
 // gera a senha da consulta
 void gerarcodigo( char especialidade[], char codigo[], int pf);
 // não implementado
-void CancelarConsulta();
+void printConsulta(Consulta *c);
+void printFilaIntercalada(filaConsulta *f);
 
-
+#endif

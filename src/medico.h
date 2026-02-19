@@ -1,3 +1,5 @@
+#ifndef MEDICO_H
+#define MEDICO_H
 //define medico
 typedef struct Medico {
 
@@ -32,3 +34,5 @@ void salvar_medicos(Medico_List *li);
 
 //carrega os medicos de um arquivo
 void carregar_medicos(Medico_List **li);
+
+#endif

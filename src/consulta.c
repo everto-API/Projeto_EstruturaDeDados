@@ -2,13 +2,18 @@
 #include <stdlib.h>
 #include <string.h>
 #include "consulta.h"
-#include <stdlib.h>
-#include <stdio.h>
-#include <string.h>
+
 // Ainda será produzida
 // Para ser feita preciso dos dados de medico.c e paciente.c
 // Sem eles não da para fazer a consulta
 
+int codigo_CG = 0;
+int codigo_OR = 0;
+int codigo_CA = 0;
+
+int codigo_CGP = 0;
+int codigo_ORP = 0;
+int codigo_CAP = 0;
 
 filaConsulta *criar_filaConsulta(){
 
@@ -140,36 +145,54 @@ void enqueue_Consulta(filaConsulta *fi, Consulta c){
 
 void dequeue_Consulta(filaConsulta *fi){
 
-    Elem_filaConsulta *no = malloc(sizeof(Elem_filaConsulta));
-    if(no != NULL){
+    if(fi == NULL) return;
+    Elem_filaConsulta *no;
 
-        if(fi->inicio_pf != NULL && fi->acc < 2){
-            
-            no = fi->inicio_pf;
-            fi->inicio_pf = fi->inicio_pf->prox;
-            free(no);
-            fi->acc ++;
-    
-        }else if (fi->inicio_normal != NULL)
-        {
-            no =  fi->inicio_normal;
-            fi->inicio_normal = fi->inicio_normal->prox;
-            free(no);
-            fi->acc = 0;
+
+    if(fi->inicio_pf != NULL && fi->acc < 2){
+        
+        no = fi->inicio_pf;
+        fi->inicio_pf = fi->inicio_pf->prox;
+        free(no);
+        fi->acc ++;
+        if(fi->inicio_pf == NULL){
+
+            fi->final_pf = NULL;
+
         }
+
+    }else if (fi->inicio_normal != NULL)
+    {
+        no =  fi->inicio_normal;
+        fi->inicio_normal = fi->inicio_normal->prox;
+        free(no);
+        no = NULL;
+        fi->acc = 0;
+        if(fi->inicio_normal == NULL){
+
+            fi->final_normal = NULL;
+
+        }
+    }
         
 
         
-    }
+
 
 };
 
-Elem_filaConsulta * ListarConsultas(filaConsulta *fi);
-/*Clínica Geral –.
+Consulta peek_Consulta(filaConsulta *fi){
 
-Cardiologia –.
+     if(fi->inicio_pf != NULL && fi->acc < 2){
 
-Ortopedia –*/
+        return fi->inicio_pf->consulta;
+
+     }else if (fi->inicio_normal != NULL){
+
+        return fi->inicio_normal->consulta;
+     }
+
+};
 
 Consulta criarConsulta(Paciente_list *Paciente, char especialidade[], int pf){
 
@@ -286,37 +309,3 @@ void printFilaIntercalada(filaConsulta *f) {
 }
 
 
-void CancelarConsulta();
-
-int main(){
-
-     filaConsulta * fila = criar_filaConsulta();
-     Paciente_list * pacientes = criar_pacienteList();
-     
-     cadastro_paciente("thyerry", "122222222", 22, &pacientes);
-     
-     Consulta c = criarConsulta(buscar_Paciente("122222222",pacientes),"Clínica Geral", 1);
-     Consulta c2 = criarConsulta(buscar_Paciente("122222222",pacientes),"Clínica Geral", 1);
-     Consulta c3 = criarConsulta(buscar_Paciente("122222222",pacientes),"Clínica Geral", 1);
-     Consulta c4 = criarConsulta(buscar_Paciente("122222222",pacientes),"Clínica Geral", 0);
-     Consulta c5 = criarConsulta(buscar_Paciente("122222222",pacientes),"Clínica Geral", 0);
-
-    //printConsulta(&c);
-    //printConsulta(&c2);
-    //printConsulta(&c3);
-
-    enqueue_Consulta(fila, c);
-    enqueue_Consulta(fila, c2);
-    enqueue_Consulta(fila, c3);
-    enqueue_Consulta(fila, c4);
-    enqueue_Consulta(fila, c5);
-
-    printFilaIntercalada(fila);
-    dequeue_Consulta(fila);
-    printFilaIntercalada(fila);
-    dequeue_Consulta(fila);
-    printFilaIntercalada(fila);
-    dequeue_Consulta(fila);
-    printFilaIntercalada(fila);
-
-}

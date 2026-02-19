@@ -182,10 +182,14 @@ void print_pacienteList(Paciente_list *li) {
 
         li = li->prox;
         i++;
-    }
-    void salvar_pacientes(Paciente_list *li) {
 
-    FILE *f = fopen("pacientes.dat", "wb");
+
+}
+}
+
+void salvar_pacientes(Paciente_list *li) {
+
+    FILE *f = fopen("./data/pacientes.dat", "wb");
     if (f == NULL) {
         printf("Erro ao abrir arquivo de pacientes.\n");
         return;
@@ -200,7 +204,7 @@ void print_pacienteList(Paciente_list *li) {
 }
 void carregar_pacientes(Paciente_list **li) {
 
-    FILE *f = fopen("pacientes.dat", "rb");
+    FILE *f = fopen("./data/pacientes.dat", "rb");
     if (f == NULL) {
         return; // Se não existir, ok
     }
@@ -213,6 +217,4 @@ void carregar_pacientes(Paciente_list **li) {
     }
 
     fclose(f);
-}
-
 }
