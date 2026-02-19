@@ -3,6 +3,8 @@
 #include <stdlib.h>
 #include <string.h>
 
+Historico_pilha * historicoConsultas;
+
 Historico_pilha * cria_pilha(){
 
     Historico_pilha * pi = malloc(sizeof(Historico_pilha));
@@ -16,6 +18,17 @@ Historico_pilha * cria_pilha(){
     return pi;
 
 };
+
+Historico criar_historico(Consulta c, Medico_List* m){
+
+    Historico h;
+
+    h.consulta = c;
+    h.medico = m;
+    return h;
+
+
+}
 
 void libera_pilha(Historico_pilha * pi){
 
@@ -70,6 +83,32 @@ void pop_Historico(Historico_pilha *pi){
 
 };
 
+Historico peek_Historico(Historico_pilha pi){
+
+    Historico vazio = {0};
+
+    if(pi != NULL){
+
+        return (*pi).historico;
+
+    }
+    return vazio;
+
+};
+
+void print_peekHistorico(Historico_pilha pi){
+
+    Historico peek = peek_Historico(pi);
+
+    printf("-----------------------------------------------------\n");
+    printf("Codigo        : %s\n", peek.consulta.codigo);
+    printf("Paciente      : %s\n", peek.consulta.paciente->paciente.Nome);
+    printf("Medico        : %s\n", peek.medico->medico.Nome);
+    printf("Especialidade : %s\n", peek.consulta.especialidade);
+    printf("-----------------------------------------------------\n\n");
+
+}
+
 void print_Historico(Historico_pilha *pi) {
     if (pi == NULL || *pi == NULL) {
         printf("Historico vazio.\n");
@@ -77,13 +116,27 @@ void print_Historico(Historico_pilha *pi) {
     }
 
     Elem_Historico *atual = *pi;
-    printf("\n=== Historico de Consultas Realizadas ===\n");
+    int cont = 1;
+
+    printf("\n=====================================================\n");
+    printf("           HISTORICO DE CONSULTAS REALIZADAS        \n");
+    printf("=====================================================\n\n");
+
     while (atual != NULL) {
-        printf("Codigo: %s | Paciente: %s | Especialidade: %s\n", 
-            atual->historico.consulta.codigo, 
-            atual->historico.consulta.paciente->paciente.Nome,
-            atual->historico.consulta.especialidade);
+
+        printf("Consulta #%d\n", cont++);
+        printf("-----------------------------------------------------\n");
+        printf("Codigo        : %s\n", atual->historico.consulta.codigo);
+        printf("Paciente      : %s\n", 
+               atual->historico.consulta.paciente->paciente.Nome);
+        printf("Medico        : %s\n", 
+               atual->historico.medico->medico.Nome);
+        printf("Especialidade : %s\n", 
+               atual->historico.consulta.especialidade);
+        printf("-----------------------------------------------------\n\n");
+
         atual = atual->prox;
     }
-    printf("=========================================\n");
+
+    printf("============== FIM DO HISTORICO =====================\n");
 }

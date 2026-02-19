@@ -24,24 +24,57 @@ Utilizadas para o **Histórico de Consultas** (`historico.c`).
 
 Para rodar o projeto, é necessário ter o compilador GCC instalado.
 
-1.  **Compilar**:
-    Execute o comando abaixo na raiz do projeto para criar o executável:
+### 🔹 Usando GCC diretamente
+
+1.  **Compilar**:  
+    Execute o comando abaixo na raiz do projeto para gerar o executável:
     ```powershell
-    gcc src/main.c src/paciente.c src/medico.c src/consulta.c src/historico.c -o src/main.exe
+    gcc src/main.c src/paciente.c src/medico.c src/consulta.c src/historico.c -o main.exe
     ```
 
 2.  **Executar**:
     ```powershell
-    ./src/main.exe
+    ./main.exe
     ```
+
+---
+
+### 🔹 Usando Makefile (Recomendado)
+
+O projeto possui um **Makefile** que automatiza o processo de compilação.
+
+1.  **Compilar**:
+    ```powershell
+    make
+    ```
+
+    O executável será gerado na pasta `bin/`.
+
+2.  **Executar**:
+    ```powershell
+    make run
+    ```
+
+3.  **Limpar arquivos compilados**:
+    ```powershell
+    make clean
+    ```
+
 
 ## Funcionalidades
 
-*   **Recepção**: Cadastrar, Buscar e Remover Pacientes (Ordenado por Nome).
-*   **Setor Médico**: Cadastrar e Remover Médicos; Buscar por CRM.
-*   **Administração**:
-    *   **Agendar**: Insere paciente na Fila (Normal ou Prioritária).
+*   **Recepção**:
+    *   **Cadastro**: Cadastrar, Buscar e Remover Pacientes (Ordenado por Nome).
+    *   **Agendamento**: Insere paciente na Fila (Normal ou Prioritária).
+    *   **Ver Fila**: Visualiza a ordem de atendimento.
+
+*   **Setor Médico**:
     *   **Realizar Consulta**: Remove da Fila e insere na Pilha de Histórico.
     *   **Ver Fila**: Visualiza a ordem de atendimento.
+
+*   **Administração**:
+    *   **Cadastro**: Cadastrar e Remover Médicos; Buscar por CRM.
     *   **Histórico**: Visualiza as últimas consultas realizadas.
-*   **Persistência**: Os dados de Pacientes e Médicos são salvos automaticamente na pasta `data/` ao sair.
+
+*   **Persistência**:
+    *   Os dados de Pacientes e Médicos são salvos automaticamente na pasta `data/` ao sair.

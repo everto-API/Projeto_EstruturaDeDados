@@ -52,9 +52,9 @@ typedef struct filaConsulta
 
 }filaConsulta;
 
-filaConsulta * fila_CG;
-filaConsulta * fila_OR;
-filaConsulta * fila_CA;
+extern filaConsulta * fila_CG;
+extern filaConsulta * fila_OR;
+extern filaConsulta * fila_CA;
 
 // Aqui tão as funções principais
 

@@ -12,6 +12,10 @@ int codigo_CGP = 0;
 int codigo_ORP = 0;
 int codigo_CAP = 0;
 
+filaConsulta * fila_CG;
+filaConsulta * fila_OR;
+filaConsulta * fila_CA;
+
 filaConsulta *criar_filaConsulta(){
 
     filaConsulta *fila = malloc(sizeof(filaConsulta));
@@ -179,7 +183,7 @@ void dequeue_Consulta(filaConsulta *fi){
 };
 
 Consulta peek_Consulta(filaConsulta *fi){
-
+    Consulta vazio = {0};
      if(fi->inicio_pf != NULL && fi->acc < 2){
 
         return fi->inicio_pf->consulta;
@@ -188,6 +192,7 @@ Consulta peek_Consulta(filaConsulta *fi){
 
         return fi->inicio_normal->consulta;
      }
+    return vazio;
 
 };
 
@@ -261,7 +266,7 @@ void gerarcodigo( char especialidade[], char codigo[], int pf){
 void printConsulta(Consulta *c) {
     if (c == NULL) return;
 
-    printf("Código da Consulta: %s\n", c->codigo);
+    printf("Codigo da Consulta: %s\n", c->codigo);
     printf("Especialidade: %s\n", c->especialidade);
     printf("Paciente: %s\n", c->paciente->paciente.Nome); 
     printf("-------------------------\n");

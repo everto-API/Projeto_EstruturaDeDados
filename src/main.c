@@ -7,7 +7,82 @@
 
 Paciente_list *pacientes;
 Medico_List *medicos;
-void GerenciarMedicos(Medico_List **medicos) {
+//Interface do Medico onde podera visualizar a fila e poderá chamar o proximo
+void SetorMedico(Medico_List *medicos,  filaConsulta* CG, filaConsulta* CA, filaConsulta* OR, Historico_pilha *pi) {
+    
+    filaConsulta* fila;
+    Medico_List * medico;
+    Historico h;
+    char crm[7];
+    int opt = -1;
+
+    printf("\n    -- Setor Medico --\n\n");
+    
+    printf("CRM: ");
+    scanf(" %6s", crm); while (getchar() != '\n');
+    medico = buscar_Medico(crm,medicos);
+    if(medico != NULL){
+        
+        if(strcmp(medico->medico.especialidade, "Ortopedia") == 0){
+
+            fila = OR;
+
+        }else if(strcmp(medico->medico.especialidade, "Cardiologia") == 0){
+
+            fila = CA;
+
+        }else{
+
+            fila = CG;
+
+        }
+
+
+         do {
+        printf("\n    -- Setor Medico --\n\n");
+        printf("-------------------");
+        printf("Nome: %s\n", medico->medico.Nome);
+        printf("CRM: %s\n", medico->medico.crm);
+        printf("Especialidade: %s\n", medico->medico.especialidade);
+        printf("-------------------\n\n");
+        printf("[1] Chamar Proximo da Fila\n");
+        printf("[2] Ver Fila\n");
+        printf("[0] Voltar ao menu inicial\n\n");
+        printf("Digite uma opcao:\n> ");
+        if (scanf("%d", &opt) != 1) {
+            while (getchar() != '\n'); // Limpa buffer se nao for numero
+            opt = -1;
+        }
+
+        switch(opt){
+            
+            case 1:
+                h = criar_historico(peek_Consulta(fila), medico);
+                push_Historico(pi, h);
+                dequeue_Consulta(fila);
+                break;
+
+            case 2:
+                printFilaIntercalada(fila);
+                break;
+            
+            default:
+                if (opt != 0) printf("Opcao invalida\n");
+                break;
+            
+        }
+
+    } while (opt != 0);
+
+    }else{
+
+        printf("Cadastro Medico Nao Encontrado.\n");
+
+    }
+
+};// Interface onde irá poder registrar, excluir, verificar qualquer dado relacionado aos médicos
+// Mostra o historico de consultas 
+void admin(Medico_List** medicos, Historico_pilha *pi){
 
     char Nome[50];
     char crm[7];
@@ -16,11 +91,13 @@ void GerenciarMedicos(Medico_List **medicos) {
     int opt = -1;
 
     do {
-        printf("\n    -- Setor Medico --\n\n");
+        printf("\n    -- Administracao --\n\n");
         printf("[1] Cadastrar Medico\n");
         printf("[2] Buscar Medico (por CRM)\n");
         printf("[3] Imprimir lista de todos os medicos\n");
         printf("[4] Remover Medico\n");
+        printf("[5] Historico\n");
+        printf("[6] Ultima Consulta\n");
         printf("[0] Voltar ao menu inicial\n\n");
         printf("Digite uma opcao:\n> ");
         if (scanf("%d", &opt) != 1) {
@@ -66,157 +143,45 @@ void GerenciarMedicos(Medico_List **medicos) {
             case 4:
                 printf("CRM do Medico a remover: ");
                 scanf(" %6s", crm); while (getchar() != '\n');
-                remover_medico(crm, medicos); 
+                remover_medico(crm, medicos);
+                salvar_medicos(*medicos); 
                 break;
-                
-            default:
-                if (opt != 0) printf("Opcao invalida\n");
-        }
-    } while (opt != 0);
+            case 5:
 
-}; // Interface onde irá poder registrar, excluir, verificar qualquer dado relacionado aos médicos
-void GerenciarConsultas() {
-    int opt = -1;
-    char cpf[12];
-    char especialidade[30];
-    int pf = 0;
-
-    do {
-        printf("\n    -- Administracao de Consultas --\n\n");
-        printf("[1] Agendar Consulta\n");
-        printf("[2] Realizar Consulta (Chamar Proximo)\n");
-        printf("[3] Ver Fila de Espera (Por Especialidade)\n");
-        printf("[4] Ver Historico de Consultas\n");
-        printf("[0] Voltar ao menu inicial\n\n");
-        printf("Digite uma opcao:\n> ");
-        if (scanf("%d", &opt) != 1) {
-            while (getchar() != '\n'); // Limpa buffer se nao for numero
-            opt = -1;
-        }
-
-        switch (opt) {
-            case 1: // Agendar
-                printf("CPF do Paciente: ");
-                scanf(" %11s", cpf); while (getchar() != '\n');
-                
-                Paciente_list *pNode = buscar_Paciente(cpf, pacientes);
-                if (pNode == NULL) {
-                    printf("Erro: Paciente nao encontrado. Cadastre-o primeiro.\n");
-                    break;
-                }
-
-                printf("Especialidade:\n[1] Clinica Geral\n[2] Ortopedia\n[3] Cardiologia\n> ");
-                char opc_esp;
-                scanf(" %c", &opc_esp); while (getchar() != '\n');
-                
-                if (opc_esp == '1') strcpy(especialidade, "Clinica Geral");
-                else if (opc_esp == '2') strcpy(especialidade, "Ortopedia");
-                else if (opc_esp == '3') strcpy(especialidade, "Cardiologia");
-                else {
-                    printf("Opcao invalida! Definindo como Clinica Geral.\n");
-                    strcpy(especialidade, "Clinica Geral");
-                }
-
-                // Validacao da especialidade e definicao da fila
-                filaConsulta *filaDestino = NULL;
-                if (strcmp(especialidade, "Clinica Geral") == 0) filaDestino = fila_CG;
-                else if (strcmp(especialidade, "Ortopedia") == 0) filaDestino = fila_OR;
-                else if (strcmp(especialidade, "Cardiologia") == 0) filaDestino = fila_CA;
-
-                if (filaDestino == NULL) {
-                    printf("Especialidade invalida!\n");
-                    break;
-                }
-
-                printf("Prioridade? (1 - Sim, 0 - Nao): ");
-                scanf("%d", &pf);
-
-                Consulta novaConsulta = criarConsulta(pNode, especialidade, pf);
-                enqueue_Consulta(filaDestino, novaConsulta);
-                printf("Consulta agendada com sucesso! Codigo: %s\n", novaConsulta.codigo);
+                print_Historico(pi);
                 break;
-
-            case 2: // Realizar Consulta
-                printf("Qual especialidade atender?\n[1] Clinica Geral\n[2] Ortopedia\n[3] Cardiologia\n> ");
-                scanf(" %c", &opc_esp); while(getchar() != '\n');
+            
+            case 6:
                 
-                if (opc_esp == '1') strcpy(especialidade, "Clinica Geral");
-                else if (opc_esp == '2') strcpy(especialidade, "Ortopedia");
-                else if (opc_esp == '3') strcpy(especialidade, "Cardiologia");
-                else {
-                    printf("Opcao invalida!\n");
-                    break;
-                }
-
-                filaConsulta *filaAtender = NULL;
-                if (strcmp(especialidade, "Clinica Geral") == 0) filaAtender = fila_CG;
-                else if (strcmp(especialidade, "Ortopedia") == 0) filaAtender = fila_OR;
-                else if (strcmp(especialidade, "Cardiologia") == 0) filaAtender = fila_CA;
-
-                if (filaAtender != NULL) {
-                    // Verifica se tem alguem na fila antes de tentar atender
-                    if (filaAtender->inicio_pf == NULL && filaAtender->inicio_normal == NULL) {
-                         printf("Fila de %s vazia.\n", especialidade);
-                    } else {
-                        Consulta cAtendida = peek_Consulta(filaAtender);
-                        
-                        // Cria registro historico
-                        Historico hist;
-                        hist.consulta = cAtendida;
-                        hist.medico = NULL; // Por enquanto sem medico vinculado
-                        
-                        push_Historico(historicoConsultas, hist);
-                        dequeue_Consulta(filaAtender);
-                        
-                        printf("Atendendo consulta: %s - %s\n", cAtendida.codigo, cAtendida.paciente->paciente.Nome);
-                    }
-                } else {
-                    printf("Especialidade invalida!\n");
-                }
-                break;
-
-            case 3: // Ver Fila
-                 printf("Qual especialidade visualizar?\n[1] Clinica Geral\n[2] Ortopedia\n[3] Cardiologia\n> ");
-                scanf(" %c", &opc_esp); while(getchar() != '\n');
-                
-                if (opc_esp == '1') strcpy(especialidade, "Clinica Geral");
-                else if (opc_esp == '2') strcpy(especialidade, "Ortopedia");
-                else if (opc_esp == '3') strcpy(especialidade, "Cardiologia");
-                else {
-                    printf("Opcao invalida!\n");
-                    break;
-                }
-
-                if (strcmp(especialidade, "Clinica Geral") == 0) printFilaIntercalada(fila_CG);
-                else if (strcmp(especialidade, "Ortopedia") == 0) printFilaIntercalada(fila_OR);
-                else if (strcmp(especialidade, "Cardiologia") == 0) printFilaIntercalada(fila_CA);
-                else printf("Especialidade invalida!\n");
-                break;
-
-            case 4: // Ver Historico
-                print_Historico(historicoConsultas);
-                break;
-
-            case 0:
-                printf("Voltando...\n");
+                print_peekHistorico(*pi);
                 break;
 
             default:
-                printf("Opcao invalida\n");
+                if (opt != 0) printf("Opcao invalida\n");
+                break;
         }
     } while (opt != 0);
-}void GerenciarPacientes(Paciente_list **pacientes) {
+
+};
+//Cadastro de pacientes / Resgistro de Consulta
+void Recepcao(Paciente_list **pacientes, filaConsulta* CG, filaConsulta* CA, filaConsulta* OR) {
     printf("\n    -- Recepcao --\n\n");
     int opt = -1;
     char nome[50];
     char cpf[12];
     int idade;
+    Paciente_list *p;
+    Consulta c;
+    int op;
+    int pf;
 
     do {
         printf("\n\n[1] Cadastrar paciente\n");
         printf("[2] Buscar paciente (por CPF)\n");
         printf("[3] Imprimir lista de todos os pacientes\n");
         printf("[4] Remover Paciente\n");
+        printf("[5] Registrar Consulta\n");
+        printf("[6] Imprimir fila de Consultas\n");
         printf("[0] Voltar ao menu inicial\n\n");
         printf("Digite uma opcao:\n> ");
         if (scanf("%d", &opt) != 1) {
@@ -251,9 +216,81 @@ void GerenciarConsultas() {
                 printf("CPF: ");
                 scanf(" %11s", cpf); while (getchar() != '\n');
                 remover_paciente(cpf, pacientes); break;
+            
+            case 5:
+                printf("CPF: ");
+                scanf(" %11s", cpf); while (getchar() != '\n');
+                p = buscar_Paciente(cpf,*pacientes);
+                if(p != NULL){
+                    
+                    printf("\n\nTIPO DE ATENDIMENTO:\n\n");
+                    printf("[1] PREFERENCIAL\n");
+                    printf("[2] NORMAL\n");
+                    printf("Digite uma opcao:\n> ");
+                    scanf("%d", &op);
+                    
+                    switch (op)
+                    {
+                    case 1:
+                        pf = 1;
+                        break;
+                    
+                    case 2:
+                        pf = 0;
+                        break;
+                    default:
+                        pf = 0;
+                        break;
+                    }
+
+                    printf("\n\nESPECIALIDADE:\n\n");
+                    printf("[1] Clinica Geral\n");
+                    printf("[2] Cardiologia\n");
+                    printf("[3] Ortopedia\n");
+                    printf("Digite uma opcao:\n> ");
+                    scanf("%d", &op);
+
+                    switch(op){
+
+                        case 1:
+                        c = criarConsulta(p, "Clinica Geral",pf);
+                        enqueue_Consulta(CG, c);
+                        break;
+
+                        case 2:
+                        c = criarConsulta(p, "Cardiologia",pf);
+                        enqueue_Consulta(CA, c);
+                        break;
+
+                        case 3:
+                        c = criarConsulta(p, "Ortopedia",pf);
+                        enqueue_Consulta(OR, c);
+                        break;
+
+                        default:
+                         c = criarConsulta(p, "Clinica Geral",pf);
+                        enqueue_Consulta(CG, c);
+                        break;
+
+                    }
+
+                }else{
+
+                    printf("Paciente nao encontrado.\n");
+
+                }
+                break;
+
+            case 6:
+                printFilaIntercalada(CG);
+                printFilaIntercalada(CA);
+                printFilaIntercalada(OR);
+                break;
                 
             default:
-                if (opt != 0) printf("Opcao invalida\n");
+                
+                if(opt != 0){printf("Opçao inválida\n");}
+                break;
         }
     } while (opt != 0);
 }
@@ -282,21 +319,17 @@ int main() { // Interface PRINCIPAL
         printf("\nDigite uma opcao:\n> ");
         scanf("%d", &opt);
         switch (opt) {
-            case 1 : 
-                GerenciarPacientes(&pacientes); 
-                break;
-            case 2 : 
-                GerenciarMedicos(&medicos); 
-                break;
-            case 3 : 
-                GerenciarConsultas(); 
-                break;
-        }  
-    } while (opt != 4);
+            case 1 : Recepcao(&pacientes,fila_CG,fila_CA,fila_OR); break;
+            case 2 : SetorMedico(medicos,fila_CG,fila_CA,fila_OR,historicoConsultas); break;
+            case 3 : admin(&medicos, historicoConsultas); break;}  } while (opt != 4);
             
+            libera_pacienteList(&pacientes); //Liberar a alocação de memória ao final do programa
             salvar_pacientes(pacientes);
             salvar_medicos(medicos);
-            libera_pacienteList(&pacientes); //Liberar a alocação de memória ao final do programa
             libera_medicoList(&medicos);
+            liberar_Consulta(&fila_CG);
+            liberar_Consulta(&fila_CA);
+            liberar_Consulta(&fila_OR);
+            libera_pilha(historicoConsultas);
     return 0;
 }
