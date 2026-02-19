@@ -130,11 +130,9 @@ void print_medicoList(Medico_List *li){
     int i = 1;
     while (li != NULL) {
         printf("\n---- Medico %d ----\n", i);
-        printf("Endereco do no: %p\n", (void*)li);
         printf("Nome: %s\n", li->medico.Nome);
         printf("CRM: %s\n", li->medico.crm);
         printf("Especialidade: %s\n", li->medico.especialidade);
-        printf("Proximo no: %p\n", (void*)li->prox);
         printf("-------------------\n\n");
 
         li = li->prox;

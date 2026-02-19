@@ -173,18 +173,14 @@ void print_pacienteList(Paciente_list *li) {
 
     while (li != NULL) {
         printf("\nPaciente %d\n", i);
-        printf("  Endereco do no: %p\n", (void*) li);
         printf("  Nome: %s\n", li->paciente.Nome);
         printf("  CPF: %s\n", li->paciente.cpf);
         printf("  Idade: %d\n", li->paciente.Idade);
-        printf("  Proximo: %p\n", (void*) li->prox);
         printf("-----------------------------\n");
 
         li = li->prox;
         i++;
-
-
-}
+    }
 }
 
 void salvar_pacientes(Paciente_list *li) {

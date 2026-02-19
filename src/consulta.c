@@ -3,9 +3,6 @@
 #include <string.h>
 #include "consulta.h"
 
-// Ainda será produzida
-// Para ser feita preciso dos dados de medico.c e paciente.c
-// Sem eles não da para fazer a consulta
 
 int codigo_CG = 0;
 int codigo_OR = 0;
@@ -210,7 +207,7 @@ void gerarcodigo( char especialidade[], char codigo[], int pf){
 
     if(pf == 1){
 
-        if(strcmp(especialidade, "Clínica Geral") == 0){
+        if(strcmp(especialidade, "Clínica Geral") == 0 || strcmp(especialidade, "Clinica Geral") == 0){
 
         codigo_CGP ++;
         sprintf(codigo,"CGP%03d",codigo_CGP);
@@ -233,7 +230,7 @@ void gerarcodigo( char especialidade[], char codigo[], int pf){
     }else{
 
 
-        if(strcmp(especialidade, "Clínica Geral") == 0){
+        if(strcmp(especialidade, "Clínica Geral") == 0 || strcmp(especialidade, "Clinica Geral") == 0){
     
             codigo_CG ++;
             sprintf(codigo,"CG%03d",codigo_CG);
@@ -269,7 +266,7 @@ void printConsulta(Consulta *c) {
     printf("Paciente: %s\n", c->paciente->paciente.Nome); 
     printf("-------------------------\n");
 }
-// imprimi a fila utilizando a regra de prioridade
+// imprime a fila utilizando a regra de prioridade
 void printFilaIntercalada(filaConsulta *f) {
     if (f == NULL) return;
 
@@ -283,7 +280,7 @@ void printFilaIntercalada(filaConsulta *f) {
 
     while (pf != NULL || normal != NULL) {
 
-        // imprime até 2 da prioritária
+        // imprime ate 2 da prioritaria
         if (pf != NULL && cont_pf < 2) {
             printf("[%d] (PRIORIDADE)\n", pos++);
             printConsulta(&pf->consulta);
@@ -297,8 +294,8 @@ void printFilaIntercalada(filaConsulta *f) {
             normal = normal->prox;
             cont_pf = 0; // reseta contador
         }
-        // se não tem mais normal, continua só PF
-        else {
+        // se nao tem mais normal, continua so PF
+        else if (pf != NULL) {
             printf("[%d] (PRIORIDADE)\n", pos++);
             printConsulta(&pf->consulta);
             pf = pf->prox;
@@ -307,5 +304,3 @@ void printFilaIntercalada(filaConsulta *f) {
 
     printf("=== Fim da Fila ===\n");
 }
-
-

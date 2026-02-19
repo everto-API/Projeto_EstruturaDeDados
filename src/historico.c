@@ -67,4 +67,23 @@ void pop_Historico(Historico_pilha *pi){
 
     }
 
+
 };
+
+void print_Historico(Historico_pilha *pi) {
+    if (pi == NULL || *pi == NULL) {
+        printf("Historico vazio.\n");
+        return;
+    }
+
+    Elem_Historico *atual = *pi;
+    printf("\n=== Historico de Consultas Realizadas ===\n");
+    while (atual != NULL) {
+        printf("Codigo: %s | Paciente: %s | Especialidade: %s\n", 
+            atual->historico.consulta.codigo, 
+            atual->historico.consulta.paciente->paciente.Nome,
+            atual->historico.consulta.especialidade);
+        atual = atual->prox;
+    }
+    printf("=========================================\n");
+}

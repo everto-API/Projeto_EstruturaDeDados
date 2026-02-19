@@ -4,13 +4,6 @@
 #include "medico.h"
 #include "paciente.h"
 
-// Ainda será produzida
-// Para ser feita preciso dos dados de medico.c e paciente.c
-// Sem eles não da para fazer a consulta
-
-
-// simplifiquei a consulta pra facilitar a implementação
-
 // contadores para gerar senhas
 extern int codigo_CG;
 extern int codigo_OR;

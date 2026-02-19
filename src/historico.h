@@ -30,7 +30,9 @@ Historico_pilha * cria_pilha();
 void libera_pilha(Historico_pilha * pi);
 
 void push_Historico(Historico_pilha *pi, Historico h);
+
 void pop_Historico(Historico_pilha *pi);
 Historico_pilha peek_Historico(Historico_pilha pi);
+void print_Historico(Historico_pilha *pi);
 
 #endif
