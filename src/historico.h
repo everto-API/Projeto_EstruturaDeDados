@@ -26,12 +26,11 @@ typedef struct elemento* Historico_pilha;
 extern Historico_pilha * historicoConsultas;
 //aloca a memoria
 Historico_pilha * cria_pilha();
-//cria o historico
-Historico criar_historico(Consulta c, Medico_List* m);
+
 //libera memoria
 void libera_pilha(Historico_pilha * pi);
 //insere na pilha
-void push_Historico(Historico_pilha *pi, Historico h);
+void push_Historico(Historico_pilha *pi, Consulta* c, Medico_List* m);
 //remove da pilha
 void pop_Historico(Historico_pilha *pi);
 //retorna o topo da pilha

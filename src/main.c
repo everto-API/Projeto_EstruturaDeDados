@@ -12,7 +12,7 @@ void SetorMedico(Medico_List *medicos,  filaConsulta* CG, filaConsulta* CA, fila
     
     filaConsulta* fila;
     Medico_List * medico;
-    Historico h;
+    Consulta* c;
     char crm[7];
     int opt = -1;
 
@@ -57,9 +57,17 @@ void SetorMedico(Medico_List *medicos,  filaConsulta* CG, filaConsulta* CA, fila
         switch(opt){
             
             case 1:
-                h = criar_historico(*(peek_Consulta(fila)), medico);
-                push_Historico(pi, h);
-                dequeue_Consulta(fila);
+                c = peek_Consulta(fila);
+                if(c != NULL){
+                    
+                    push_Historico(pi, c, medicos);
+                    dequeue_Consulta(fila);
+                    
+                }else{
+
+                    printf("\nNao ha pacientes aguardando atendimento.\n");
+
+                }
                 break;
 
             case 2:

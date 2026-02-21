@@ -19,16 +19,6 @@ Historico_pilha * cria_pilha(){
 
 };
 
-Historico criar_historico(Consulta c, Medico_List* m){
-
-    Historico h;
-
-    h.consulta = c;
-    h.medico = m;
-    return h;
-
-
-}
 
 void libera_pilha(Historico_pilha * pi){
 
@@ -49,21 +39,19 @@ void libera_pilha(Historico_pilha * pi){
 
 };
 
-void push_Historico(Historico_pilha *pi, Historico h){
+void push_Historico(Historico_pilha *pi, Consulta* c, Medico_List* m){
 
     if(pi == NULL) return;
 
+    
     Elem_Historico * no = malloc(sizeof(Elem_Historico));
-
-    if(no != NULL){
-
-        no->historico = h;
-        no->prox = (*pi);
-        *pi = no;
-
-
-    }
-
+    if(no == NULL) return;
+        
+    no->historico.consulta = *c;
+    no->historico.medico = m;
+    no->prox = (*pi);
+    *pi = no;
+ 
 };
 void pop_Historico(Historico_pilha *pi){
 
